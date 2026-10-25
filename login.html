@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>welcome</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #e8e8e8;
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Login Container */
+
+        .login-container {
+            width: 400px;
+            max-width: 92%;
+
+            background: white;
+
+            padding: 40px;
+
+            border-radius: 12px;
+
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Logo */
+
+        .logo {
+            text-align: center;
+
+            font-size: 32px;
+
+            font-weight: bold;
+
+            color: #36c9bd;
+
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+
+            color: #777;
+
+            font-size: 15px;
+
+            margin-bottom: 30px;
+        }
+
+        /* Heading */
+
+        h1 {
+            text-align: center;
+
+            color: #222;
+
+            font-size: 28px;
+
+            margin-bottom: 25px;
+        }
+
+        /* Form */
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+
+            margin-bottom: 7px;
+
+            font-size: 15px;
+
+            font-weight: bold;
+
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+
+            padding: 13px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 6px;
+
+            font-size: 15px;
+
+            outline: none;
+
+            transition: 0.2s;
+        }
+
+        input:focus {
+            border-color: #36c9bd;
+
+            box-shadow: 0 0 0 2px rgba(54, 201, 189, 0.15);
+        }
+
+        .password-visibility {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            margin-top: 9px;
+            color: #555;
+            font-size: 14px;
+            font-weight: normal;
+        }
+
+        .password-visibility input {
+            width: auto;
+        }
+
+        /* Remember + Forgot */
+
+        .options {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin: 10px 0 22px;
+        }
+
+        .remember {
+            display: flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            font-size: 14px;
+
+            color: #555;
+        }
+
+        .remember input {
+            width: auto;
+        }
+
+        .forgot {
+            color: #1976a8;
+
+            text-decoration: none;
+
+            font-size: 14px;
+        }
+
+        .forgot:hover {
+            text-decoration: underline;
+        }
+
+        /* Login Button */
+
+        .login-btn {
+            width: 100%;
+
+            padding: 14px;
+
+            background: #36c9bd;
+
+            color: white;
+
+            border: none;
+
+            border-radius: 6px;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        .login-btn:hover {
+            background: #27afa5;
+
+            transform: translateY(-1px);
+        }
+
+        /* Divider */
+
+        .divider {
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            margin: 25px 0;
+
+            color: #999;
+
+            font-size: 14px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+
+            flex: 1;
+
+            height: 1px;
+
+            background: #ddd;
+        }
+
+        /* Create Account */
+
+        .signup {
+            text-align: center;
+
+            color: #666;
+
+            font-size: 15px;
+        }
+
+        .signup a {
+            color: #1976a8;
+
+            text-decoration: none;
+
+            font-weight: bold;
+        }
+
+        .signup a:hover {
+            text-decoration: underline;
+        }
+
+        /* Error Message */
+
+        .error {
+            color: #d93025;
+
+            font-size: 14px;
+
+            text-align: center;
+
+            margin-top: 15px;
+
+            display: none;
+        }
+
+        /* Mobile */
+
+        @media (max-width: 500px) {
+
+            .login-container {
+                padding: 30px 25px;
+            }
+
+            .logo {
+                font-size: 28px;
+            }
+
+            h1 {
+                font-size: 25px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="login-container">
+
+        <div class="logo">
+            Learn
+        </div>
+
+        <p class="subtitle">
+            make a voice generator with AI
+        </p>
+
+
+        <h1>
+            Login
+        </h1>
+
+
+        <form id="loginForm">
+
+
+            <!-- Email -->
+
+            <div class="form-group">
+
+                <label for="email">
+                    Email Address
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Enter your email"
+                    autocomplete="email"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Password -->
+
+            <div class="form-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Enter your password"
+                    autocomplete="current-password"
+                    required
+                >
+
+                <label class="password-visibility" for="showPassword">
+                    <input type="checkbox" id="showPassword">
+                    Show password
+                </label>
+
+            </div>
+
+
+            <!-- Options -->
+
+            <div class="options">
+
+                <label class="remember">
+
+                    <input
+                        type="checkbox"
+                        id="remember"
+                        checked
+                    >
+
+                    Remember me
+
+                </label>
+
+
+                <a
+                    href="forgot-password.html"
+                    class="forgot"
+                >
+                    Forgot Password?
+                </a>
+
+            </div>
+
+
+            <!-- Login -->
+
+            <button
+                type="submit"
+                class="login-btn"
+            >
+                Login
+            </button>
+
+
+            <!-- Error -->
+
+            <div
+                class="error"
+                id="errorMessage"
+                role="alert"
+                aria-live="polite"
+            >
+                Login failed. Check your email and password.
+            </div>
+
+        </form>
+
+
+        <!-- Divider -->
+
+        <div class="divider">
+            OR
+        </div>
+
+
+        <!-- Sign Up -->
+
+        <div class="signup">
+
+            Don't have an account?
+
+            <a href="register.html">
+                Create Account
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        document
+            .getElementById("showPassword")
+            .addEventListener("change", function() {
+                document.getElementById("password").type =
+                    this.checked ? "text" : "password";
+            });
+
+        document
+            .getElementById("loginForm")
+            .addEventListener("submit", async function(event) {
+                event.preventDefault();
+
+                const error = document.getElementById("errorMessage");
+                const button = document.querySelector(".login-btn");
+                error.style.display = "none";
+                button.disabled = true;
+
+                try {
+                    const response = await fetch("/api/login", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            email: document.getElementById("email").value.trim(),
+                            password: document.getElementById("password").value,
+                            remember: document.getElementById("remember").checked
+                        })
+                    });
+                    const result = await response.json();
+
+                    if (!response.ok) {
+                        error.textContent = result.error || "Login failed. Check your email and password.";
+                        error.style.display = "block";
+                        return;
+                    }
+
+                    window.location.href = "/home.html";
+                } catch {
+                    error.textContent = "Could not connect to the server. Please try again.";
+                    error.style.display = "block";
+                } finally {
+                    button.disabled = false;
+                }
+            });
+
+    </script>
+</body>
+
+</html>

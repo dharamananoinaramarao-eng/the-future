@@ -1,0 +1,9 @@
+Flask
+gunicorn
+gtts
+Pillow
+pytesseract
+langdetect
+deep-translator
+argostranslate
+edge-tts

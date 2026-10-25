@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Multilingual Voice AI</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    padding: 20px 12px;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #e0f2fe, #f3e8ff);
+    color: #172033;
+}
+
+.container {
+    max-width: 760px;
+    margin: 20px auto;
+    padding: 26px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 12px 35px #17203318;
+}
+
+h1 { text-align: center; color: #4f46e5; }
+.subtitle { text-align: center; color: #64748b; line-height: 1.6; }
+
+.tabs { display: flex; gap: 10px; margin: 24px 0; }
+
+.tab {
+    flex: 1;
+    padding: 13px 8px;
+    border: 0;
+    border-radius: 10px;
+    cursor: pointer;
+    background: #eef2ff;
+    color: #3730a3;
+    font-weight: bold;
+}
+
+.tab.active { background: #4f46e5; color: white; }
+
+.panel { display: none; }
+.panel.active { display: block; }
+
+label {
+    display: block;
+    font-weight: bold;
+    margin: 17px 0 8px;
+}
+
+textarea, select, input[type=file] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    font: inherit;
+}
+
+textarea { min-height: 140px; resize: vertical; }
+
+button.convert {
+    width: 100%;
+    padding: 15px;
+    margin-top: 18px;
+    border: 0;
+    border-radius: 10px;
+    background: #4f46e5;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button.convert:hover { background: #3730a3; }
+
+.hint { font-size: 13px; color: #64748b; line-height: 1.5; }
+
+.result {
+    margin-top: 24px;
+    padding: 18px;
+    border: 1px solid #e2e8f0;
+    background: #f8fafc;
+    border-radius: 12px;
+    overflow-wrap: anywhere;
+}
+
+.result p { white-space: pre-wrap; line-height: 1.6; }
+
+.success { color: #15803d; }
+.error {
+    color: #b91c1c;
+    background: #fef2f2;
+    border-color: #fecaca;
+}
+
+audio { display: block; width: 100%; margin: 14px 0; }
+
+.download {
+    display: inline-block;
+    margin-top: 8px;
+    color: #4338ca;
+    font-weight: bold;
+}
+
+@media(max-width: 480px) {
+    .container { padding: 18px 14px; }
+    h1 { font-size: 25px; }
+    .tab { font-size: 13px; }
+}
+</style>
+</head>
+
+<body>
+<main class="container">
+    <h1>🌐 Multilingual Voice AI</h1>
+    <p class="subtitle">
+        Enter text or upload an image. Detect the language,
+        translate it, and listen to the result.
+    </p>
+
+    <div class="tabs">
+        <button type="button" class="tab active"
+                data-panel="textPanel">Text to Voice</button>
+        <button type="button" class="tab"
+                data-panel="imagePanel">Image to Voice</button>
+    </div>
+
+    <form method="POST" enctype="multipart/form-data">
+        <label for="target_language">Speak in this language</label>
+        <select name="target_language" id="target_language" required>
+            {% for code, name in languages.items() %}
+            <option value="{{ code }}">{{ name }}</option>
+            {% endfor %}
+        </select>
+
+        <div id="textPanel" class="panel active">
+            <label for="text">Enter text in any supported language</label>
+            <textarea id="text" name="text" maxlength="5000"
+                placeholder="Type English, తెలుగు, हिन्दी, தமிழ், ಕನ್ನಡ..."></textarea>
+            <p class="hint">
+                The app attempts to detect the source language automatically.
+            </p>
+            <button class="convert" type="submit" name="mode" value="text">
+                🎙️ Translate & Generate Voice
+            </button>
+        </div>
+
+        <div id="imagePanel" class="panel">
+            <label for="image">Choose an image containing text</label>
+            <input id="image" name="image" type="file"
+                accept=".png,.jpg,.jpeg,.webp,.bmp" />
+
+            <label for="ocr_language">Image text language</label>
+            <select id="ocr_language" name="ocr_language">
+                <option value="auto">Auto / mixed languages</option>
+                {% for code, name in languages.items() %}
+                <option value="{{ code }}">{{ name }}</option>
+                {% endfor %}
+            </select>
+
+            <p class="hint">
+                Auto mode uses all five installed OCR language packs.
+                Select a specific language for potentially better recognition.
+            </p>
+
+            <button class="convert" type="submit" name="mode" value="image">
+                🖼️ Extract, Translate & Generate Voice
+            </button>
+        </div>
+    </form>
+
+    {% if error %}
+    <div class="result error" role="alert">
+        <strong>Error:</strong> {{ error }}
+    </div>
+    {% endif %}
+
+    {% if result %}
+    <section class="result">
+        <h2 class="success">✅ Voice generated!</h2>
+
+        <p><strong>Detected source language:</strong>
+            {{ result.detected_language }}</p>
+        <p><strong>Selected voice language:</strong>
+            {{ result.target_language }}</p>
+
+        <label>Original / extracted text</label>
+        <p>{{ result.original_text }}</p>
+
+        <label>Translated text to be spoken</label>
+        <p>{{ result.translated_text }}</p>
+
+        <label>Listen to your voice</label>
+        <audio controls>
+            <source src="{{ result.audio_url }}" type="audio/mpeg">
+            Your browser does not support audio.
+        </audio>
+
+        <a class="download" href="{{ result.audio_url }}"
+           download="multilingual_voice.mp3">
+            ⬇ Download MP3
+        </a>
+    </section>
+    {% endif %}
+</main>
+
+<script>
+const tabs = document.querySelectorAll(".tab");
+const panels = document.querySelectorAll(".panel");
+
+tabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+        tabs.forEach(item => item.classList.remove("active"));
+        panels.forEach(panel => panel.classList.remove("active"));
+        tab.classList.add("active");
+        document.getElementById(tab.dataset.panel)
+            .classList.add("active");
+    });
+});
+</script>
+</body>
+</html>

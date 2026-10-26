@@ -86,7 +86,17 @@ def load_secret_key():
     return secret_key
 
 
-app = Flask(__name__, template_folder=str(BASE_DIR / "templates"))
+def _resolve_template_folder() -> Path:
+    """Use the repo root when a templates/ directory does not exist."""
+    templates_dir = BASE_DIR / "templates"
+    return templates_dir if templates_dir.is_dir() else BASE_DIR
+
+
+app = Flask(
+    __name__,
+    template_folder=str(_resolve_template_folder()),
+    static_folder=str(BASE_DIR / "static"),
+)
 app.config.update(
     SECRET_KEY=load_secret_key(),
     DATABASE=Path(os.environ.get("DATABASE_PATH", BASE_DIR / "users.db")),
